@@ -161,14 +161,6 @@ in {
   };
 
   config = mkIf (cfg.enable && cfg.settings != null) {
-    nixpkgs.overlays = [self.overlays.default];
-
-    environment.systemPackages = with cfg; [
-      finalPackage
-      webPackage
-      ffmpegPackage
-    ];
-
     systemd.services."jellyfin" = {
       restartTriggers = [(builtins.toJSON cfg.settings)];
 

@@ -12,6 +12,28 @@ This flake exposes multiple Jellyfin packages with the latest stable release
 Most of the nix code for these packages has been taken from nixpkgs, but gets updated automatically every day
 so I get updates way before nixpkgs does.
 
+To access the packages you can either apply the nixpkgs overlay
+```nix
+config = {
+  nixpkgs.overlays = [self.overlays.default];
+
+  environment.systemPackages = [
+    pkgs.jellyfin
+  ];
+}
+```
+or directly use the `packages` output of this flake 
+```nix
+config = {
+  environment.systemPackages = [
+    inputs.nixos-jellyfin.packages.x86_64-linux.jellyfin  
+
+    # or add the exact package that the jellfin service uses
+    config.services.jellyfin.finalpackage
+  ];
+}
+```
+
 - [jellyfin](https://github.com/jellyfin/jellyfin):
 The basic server package
 
